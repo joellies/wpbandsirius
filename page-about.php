@@ -27,27 +27,16 @@ $about_image_alt = $about_image["alt"];
             <div class="widget">
               <h3 class="widget-title">Discography</h3>
               <ul class="discography-list">
+                <?php $args = array('post_type' => 'album');
+                $albums = new WP_Query($args);
+                ?>
+                <?php if ($albums->have_posts()) : ?>
+                <?php while ($albums->have_posts()) : $albums->the_post(); ?>
                 <li>
-
-                  <?php $args = array('post_type' => 'album');
-                  $albums = new WP_Query($args);
-                  ?>
-                  <?php if ($albums->have_posts()) : ?>
-                  <?php while ($albums->have_posts()) : $albums->the_post(); ?>
-                <li>
-                  <figure class="cover">
-                    <?php the_post_thumbnail('thumbnail'); ?>
-                  </figure>
-                  <div class="detail">
-                    <h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
-                    <span class="year"><?php the_field('album_year') ?></span>
-                    <span class="track"></span>
-                  </div>
-                </li>
-                <?php endwhile; ?>
-                <?php wp_reset_postdata(); ?>
-                <?php endif; ?>
-
+                  <?php get_template_part('template-parts/content', 'single-album'); ?>
+                  <?php endwhile; ?>
+                  <?php wp_reset_postdata(); ?>
+                  <?php endif; ?>
                 </li>
               </ul>
             </div>
@@ -59,3 +48,4 @@ $about_image_alt = $about_image["alt"];
   <!-- .testimonial-section -->
 </main>
 <!-- .main-content -->
+<?php get_footer(); ?>
