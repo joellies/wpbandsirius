@@ -104,3 +104,69 @@ function wpTest_post_thumbnails()
   add_theme_support('post-thumbnails');
 }
 add_action('after_setup_theme', 'wpTest_post_thumbnails');
+
+//Taille de l'excerpt
+
+function new_excerpt_length($length)
+{
+  return 50;
+}
+add_filter('excerpt_length', 'new_excerpt_length');
+
+//Custom post type
+
+// Register Custom Post Type
+function wpTest_custom_post_type()
+{
+
+  $labels = array(
+    'name'                  => _x('Albums', 'Post Type General Name', 'wpTest'),
+    'singular_name'         => _x('Album', 'Post Type Singular Name', 'wpTest'),
+    'menu_name'             => __('Albums', 'wpTest'),
+    'name_admin_bar'        => __('Album', 'wpTest'),
+    'archives'              => __('Album Archives', 'wpTest'),
+    'attributes'            => __('Album Attributes', 'wpTest'),
+    'parent_item_colon'     => __('Parent Album:', 'wpTest'),
+    'all_items'             => __('All Albums', 'wpTest'),
+    'add_new_item'          => __('Add New Album', 'wpTest'),
+    'add_new'               => __('Add New', 'wpTest'),
+    'new_item'              => __('New Album', 'wpTest'),
+    'edit_item'             => __('Edit Album', 'wpTest'),
+    'update_item'           => __('Update Album', 'wpTest'),
+    'view_item'             => __('View Album', 'wpTest'),
+    'view_items'            => __('View Albums', 'wpTest'),
+    'search_items'          => __('Search Album', 'wpTest'),
+    'not_found'             => __('Not found', 'wpTest'),
+    'not_found_in_trash'    => __('Not found in Trash', 'wpTest'),
+    'featured_image'        => __('Featured Image', 'wpTest'),
+    'set_featured_image'    => __('Set featured image', 'wpTest'),
+    'remove_featured_image' => __('Remove featured image', 'wpTest'),
+    'use_featured_image'    => __('Use as featured image', 'wpTest'),
+    'insert_into_item'      => __('Insert into album', 'wpTest'),
+    'uploaded_to_this_item' => __('Uploaded to this album', 'wpTest'),
+    'items_list'            => __('Albums list', 'wpTest'),
+    'items_list_navigation' => __('Albums list navigation', 'wpTest'),
+    'filter_items_list'     => __('Filter Albums list', 'wpTest'),
+  );
+  $args = array(
+    'label'                 => __('Album', 'wpTest'),
+    'description'           => __('Discography of Spritz', 'wpTest'),
+    'labels'                => $labels,
+    'supports'              => array('title', 'editor', 'thumbnail', 'excerpt'),
+    'hierarchical'          => false,
+    'public'                => true,
+    'show_ui'               => true,
+    'show_in_menu'          => true,
+    'menu_position'         => 5,
+    'show_in_admin_bar'     => true,
+    'show_in_nav_menus'     => true,
+    'can_export'            => true,
+    'has_archive'           => true,
+    'exclude_from_search'   => false,
+    'publicly_queryable'    => true,
+    'capability_type'       => 'page',
+    'menu_icon' => 'dashicons-media-audio'
+  );
+  register_post_type('album', $args);
+}
+add_action('init', 'wpTest_custom_post_type', 0);
