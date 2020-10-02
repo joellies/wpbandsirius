@@ -1,82 +1,44 @@
 <?php get_header() ?>
-<?php while (have_posts()) : the_post(); ?>
 
+<!-- slider-->
 <div class="hero">
   <div class="slider">
+    <?php if (have_rows('main_slider')) : ?>
     <ul class="slides">
-      <li class="lazy-bg" data-background="dummy/slide-1.jpg">
+      <?php while (have_rows('main_slider')) : the_row();
+          $slide_image = get_sub_field('slide_image');
+        ?>
+      <li class="lazy-bg" data-background="<?php echo $slide_image['url']; ?>">
         <div class="container">
-          <h2 class="slide-title">Header goes here</h2>
-          <h3 class="slide-subtitle">Less important text goes here</h3>
-          <p class="slide-desc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            <br />
-            Fugiat aliquid minus nemo sed est.
-          </p>
-
-          <a href="#" class="button cut-corner">Read More</a>
+          <h2 class=" slide-title"><?php the_sub_field('slide_title'); ?></h2>
+          <h3 class=" slide-subtitle"><?php the_sub_field('slide_subtitle'); ?></h3>
+          <p class="slide-desc"><?php the_sub_field('slide_description'); ?></p>
+          <a href="<?php the_sub_field('slide_link'); ?>" class=" button cut-corner">Read More</a>
         </div>
       </li>
-      <li class="lazy-bg" data-background="dummy/slide-2.jpg">
-        <div class="container">
-          <h2 class="slide-title">Header goes here</h2>
-          <h3 class="slide-subtitle">Less important text goes here</h3>
-          <p class="slide-desc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            <br />
-            Fugiat aliquid minus nemo sed est.
-          </p>
-
-          <a href="#" class="button cut-corner">Read More</a>
-        </div>
-      </li>
-      <li class="lazy-bg" data-background="dummy/slide-3.jpg">
-        <div class="container">
-          <h2 class="slide-title">Header goes here</h2>
-          <h3 class="slide-subtitle">Less important text goes here</h3>
-          <p class="slide-desc">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            <br />
-            Fugiat aliquid minus nemo sed est.
-          </p>
-
-          <a href="#" class="button cut-corner">Read More</a>
-        </div>
-      </li>
+      <?php endwhile; ?>
     </ul>
+    <?php endif; ?>
   </div>
 </div>
-
-<main class="main-content">
+<!-- end of slider-->
+<main class=" main-content">
   <div class="fullwidth-block testimonial-section">
     <div class="container">
       <div class="quote-slider">
+        <?php if (have_rows('quotes')) : ?>
         <ul class="slides">
+          <?php while (have_rows('quotes')) : the_row(); ?>
           <li>
             <blockquote>
-              <p>
-                "Sed ut perspiciatis unde omnis iste natus error sit
-                voluptatem accusantium doloremque laudantium totam rem
-                aperiam eaque ipsa quae ab illo inventore veritatis et
-                quasi architecto beatae vitae dicta sunt explicabo"
-              </p>
-              <cite>John Smith</cite>
-              <span>Corporation CEO, books author</span>
+              <p><?php the_sub_field('quote'); ?> </p>
+              <cite><?php the_sub_field('quote_author'); ?></cite>
+              <span><?php the_sub_field('author_function'); ?></span>
             </blockquote>
           </li>
-          <li>
-            <blockquote>
-              <p>
-                "Iste natus error sit voluptatem accusantium doloremque
-                laudantium totam rem aperiam eaque ipsa quae ab illo
-                inventore veritatis et quasi architecto beatae vitae dicta
-                sunt explicabo"
-              </p>
-              <cite>John Smith</cite>
-              <span>Corporation CEO, books author</span>
-            </blockquote>
-          </li>
+          <?php endwhile; ?>
         </ul>
+        <?php endif; ?>
       </div>
     </div>
   </div>
@@ -99,79 +61,33 @@
       </header>
       <!-- .section-header -->
       <div class="event-carousel">
+        <?php
+        $args = array(
+          'post_type' => 'event',
+          'posts_per_page' => 5,
+          'order'     => 'ASC',
+        );
+        $events = new WP_Query($args);
+        ?><?php if ($events->have_posts()) : ?>
+        <?php while ($events->have_posts()) : $events->the_post();
+              $event_date = get_field('event_date');
+              $event_day = date("j", strtotime($event_date));
+              $event_month = date("M", strtotime($event_date));
+        ?>
         <div class="event">
           <div class="entry-date">
-            <div class="date">23</div>
-            <span class="month">Jun</span>
+            <div class="date"><?php echo $event_day; ?></div>
+            <span class="month"><?php echo $event_month; ?></span>
           </div>
           <h2 class="entry-title">
-            <a href="#">Sed et persipiatis unde omnis iste natus</a>
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
           </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Aliquid temporibus quos aspernatur
-          </p>
+          <p><?php ?><?php the_field('event_location') ?></p>
+          <p><?php the_excerpt(); ?></p>
         </div>
-        <!-- .event -->
-
-        <div class="event">
-          <div class="entry-date">
-            <div class="date">02</div>
-            <span class="month">Juil</span>
-          </div>
-          <h2 class="entry-title">
-            <a href="#">Sed et persipiatis unde omnis iste natus</a>
-          </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Aliquid temporibus quos aspernatur
-          </p>
-        </div>
-        <!-- .event -->
-
-        <div class="event">
-          <div class="entry-date">
-            <div class="date">14</div>
-            <span class="month">Aout</span>
-          </div>
-          <h2 class="entry-title">
-            <a href="#">Sed et persipiatis unde omnis iste natus</a>
-          </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Aliquid temporibus quos aspernatur
-          </p>
-        </div>
-        <!-- .event -->
-
-        <div class="event">
-          <div class="entry-date">
-            <div class="date">07</div>
-            <span class="month">Sept</span>
-          </div>
-          <h2 class="entry-title">
-            <a href="#">Sed et persipiatis unde omnis iste natus</a>
-          </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Aliquid temporibus quos aspernatur
-          </p>
-        </div>
-        <!-- .event -->
-
-        <div class="event">
-          <div class="entry-date">
-            <div class="date">10</div>
-            <span class="month">Oct</span>
-          </div>
-          <h2 class="entry-title">
-            <a href="#">Sed et persipiatis unde omnis iste natus</a>
-          </h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Aliquid temporibus quos aspernatur
-          </p>
-        </div>
+        <?php endwhile; ?>
+        <?php endif; ?>
+        <?php wp_reset_postdata(); ?>
         <!-- .event -->
       </div>
       <!-- .event-carousel -->
@@ -180,66 +96,28 @@
   </div>
   <!-- .upcoming-event-section -->
 
-  <div class="fullwidth-block why-chooseus-section">
+  <div class=" fullwidth-block why-chooseus-section">
     <div class="container">
       <h2 class="section-title">Why choose us?</h2>
-
+      <?php if (have_rows('why_choose_us')) : ?>
       <div class="row">
+        <?php while (have_rows('why_choose_us')) : the_row();
+            $why_image = get_sub_field('why_image');
+          ?>
         <div class="col-md-4">
           <div class="feature">
             <figure class="cut-corner">
-              <img src="dummy/medium-image-1.jpg" alt="" />
+              <img src="<?php echo $why_image['url']; ?>" alt="" />
             </figure>
-            <h3 class="feature-title">
-              Similique sunt in culpa qui officia deserunt mollitia animi
-              laborum dolorum
+            <h3 class="feature-title"><?php the_sub_field('why_title'); ?>
             </h3>
-            <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus
-              qui blanditiis praesentium voluptatum deleniti atque
-              corrupti quos dolores et quas molestias excepturi sint
-              occaecati cupiditate non provident.
+            <p><?php the_sub_field('why_description'); ?>
             </p>
           </div>
-          <!-- .feature -->
         </div>
-        <div class="col-md-4">
-          <div class="feature">
-            <figure class="cut-corner">
-              <img src="dummy/medium-image-2.jpg" alt="" />
-            </figure>
-            <h3 class="feature-title">
-              Similique sunt in culpa qui officia deserunt mollitia animi
-              laborum dolorum
-            </h3>
-            <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus
-              qui blanditiis praesentium voluptatum deleniti atque
-              corrupti quos dolores et quas molestias excepturi sint
-              occaecati cupiditate non provident.
-            </p>
-          </div>
-          <!-- .feature -->
-        </div>
-        <div class="col-md-4">
-          <div class="feature">
-            <figure class="cut-corner">
-              <img src="dummy/medium-image-3.jpg" alt="" />
-            </figure>
-            <h3 class="feature-title">
-              Similique sunt in culpa qui officia deserunt mollitia animi
-              laborum dolorum
-            </h3>
-            <p>
-              At vero eos et accusamus et iusto odio dignissimos ducimus
-              qui blanditiis praesentium voluptatum deleniti atque
-              corrupti quos dolores et quas molestias excepturi sint
-              occaecati cupiditate non provident.
-            </p>
-          </div>
-          <!-- .feature -->
-        </div>
+        <?php endwhile; ?>
       </div>
+      <?php endif; ?>
     </div>
     <!-- .container -->
   </div>
@@ -247,5 +125,5 @@
 </main>
 <!-- .main-content -->
 
-<?php endwhile; ?>
-<?php get_footer() ?>
+
+<?php get_footer(); ?>

@@ -34,10 +34,10 @@ $about_image_alt = $about_image["alt"];
                 <?php while ($albums->have_posts()) : $albums->the_post(); ?>
                 <li>
                   <?php get_template_part('template-parts/content', 'single-album'); ?>
-                  <?php endwhile; ?>
-                  <?php wp_reset_postdata(); ?>
-                  <?php endif; ?>
                 </li>
+                <?php endwhile; ?>
+                <?php endif; ?>
+                <?php wp_reset_postdata(); ?>
               </ul>
             </div>
           </aside>
